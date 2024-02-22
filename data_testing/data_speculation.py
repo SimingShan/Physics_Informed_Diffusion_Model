@@ -24,3 +24,4 @@ for i in range(sample_data.shape[0]):  # Loop through the 2nd dimension
 
 # Create GIF
 imageio.mimsave('visualization_high_0.gif', images, fps=5)
+

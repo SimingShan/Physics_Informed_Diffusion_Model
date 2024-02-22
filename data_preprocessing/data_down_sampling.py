@@ -15,6 +15,7 @@ def downsample_data(data, target_shape):
     downsampled_data = zoom(data, zoom_factors, order=1)
     return downsampled_data
 
+
 def create_gif(data, target_dir, filename, fps=5):
     """
     Creates a GIF from a set of 2D slices (frames) in data.
@@ -22,7 +23,7 @@ def create_gif(data, target_dir, filename, fps=5):
     images = []
     for i in range(data.shape[0]):
         fig, ax = plt.subplots()
-        ax.imshow(data[i], cmap='viridis', interpolation='none')
+        ax.imshow(data[i], cmap='twilight', interpolation='none')
         plt.axis('off')
         fname = f'{target_dir}/tmp_{i}.png'
         plt.savefig(fname, bbox_inches='tight', pad_inches=0)
@@ -65,22 +66,33 @@ def randomly_draw_points(data, percentage):
     return drawn_points
 
 
-
 # Directory for saving temporary images and final GIFs
 target_dir = "..\\data_preprocessing\\output_image"
 
 # Downsample to 64x64 and create GIF
 low_res_data_64 = downsample_data(high_res_data, (64, 64))
 create_gif(low_res_data_64[0], target_dir, 'visualization_low_64.gif')
-
+print(low_res_data_64.shape)
 # Downsample to 32x32 and create GIF
 low_res_data_32 = downsample_data(low_res_data_64, (32, 32))
 create_gif(low_res_data_32[0], target_dir, 'visualization_low_32.gif')
-
+print(low_res_data_32.shape)
 # Draw 5% of the points
 drawn_points_5_percent = randomly_draw_points(high_res_data, 5)
 create_gif(drawn_points_5_percent[0], target_dir, 'visualization_low_5p.gif')
-
+print(drawn_points_5_percent.shape)
 # Draw 1.5625% of the points
 drawn_points_1_5625_percent = randomly_draw_points(high_res_data, 1.5625)
 create_gif(drawn_points_1_5625_percent[0], target_dir, 'visualization_low_1_5625p.gif')
+print(drawn_points_1_5625_percent.shape)
+# Save the 32*32 down-sampled dataset
+np.save("../data/low_res_data_32.npy", low_res_data_32)
+
+# Save the 64*64 down-sampled dataset
+np.save("../data/low_res_data_64.npy", low_res_data_64)
+
+# Save the 5% drawn points dataset
+np.save("../data/drawn_points_5.npy", drawn_points_5_percent)
+
+# Save the 1.5625% drawn points dataset
+np.save("../data/drawn_points_1_5625.npy", drawn_points_1_5625_percent)
