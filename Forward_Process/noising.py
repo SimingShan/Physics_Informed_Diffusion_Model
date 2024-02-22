@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 
-def linear_beta_schedule(timesteps, start=0.0001, end=0.02):
+def linear_beta_schedule(timesteps, start, end):
     return torch.linspace(start, end, timesteps)
 
 def setup_diffusion(timesteps, start, end):
@@ -18,6 +18,7 @@ def setup_diffusion(timesteps, start, end):
         'sqrt_alphas_cumprod': sqrt_alphas_cumprod,
         'sqrt_one_minus_alphas_cumprod': sqrt_one_minus_alphas_cumprod
     }
+
 
 def get_index_from_list(vals, t, x_shape):
     """

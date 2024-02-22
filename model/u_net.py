@@ -1,5 +1,6 @@
 from torch import nn
-from model.sinusoidal_position_embeddings import  SinusoidalPositionEmbeddings
+from model.sinusoidal_position_embeddings import SinusoidalPositionEmbeddings
+from model.blocks import Block
 import torch
 
 class SimpleUnet(nn.Module):
@@ -9,10 +10,10 @@ class SimpleUnet(nn.Module):
 
     def __init__(self):
         super().__init__()
-        image_channels = 3
+        image_channels = 1
         down_channels = (64, 128, 256, 512, 1024)
         up_channels = (1024, 512, 256, 128, 64)
-        out_dim = 3
+        out_dim = 1
         time_emb_dim = 32
 
         # Time embedding
