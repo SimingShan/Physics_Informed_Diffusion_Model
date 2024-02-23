@@ -19,10 +19,10 @@ def main():
     model = SimpleUnet().to(device)
 
     # set up optimizer
-    optimizer = Adam(model.parameters(), lr=0.001)
+    optimizer = Adam(model.parameters(), lr=0.0005)
 
     # set up epoch
-    epoch = 10
+    epoch = 100
 
     # set up diffusion
     diffusion_params = setup_diffusion(timesteps=200, start=0.0001, end=0.02)

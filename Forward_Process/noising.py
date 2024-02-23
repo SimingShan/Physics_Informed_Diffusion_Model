@@ -9,14 +9,18 @@ def setup_diffusion(timesteps, start, end):
     alphas = 1. - betas
     alphas_cumprod = torch.cumprod(alphas, axis=0)
     alphas_cumprod_prev = F.pad(alphas_cumprod[:-1], (1, 0), value=1.0)
+    sqrt_recip_alphas = torch.sqrt(1.0 / alphas)
     sqrt_alphas_cumprod = torch.sqrt(alphas_cumprod)
     sqrt_one_minus_alphas_cumprod = torch.sqrt(1. - alphas_cumprod)
+    posterior_variance = betas * (1. - alphas_cumprod_prev) / (1. - alphas_cumprod)
 
     return {
         'betas': betas,
         'alphas_cumprod': alphas_cumprod,
         'sqrt_alphas_cumprod': sqrt_alphas_cumprod,
-        'sqrt_one_minus_alphas_cumprod': sqrt_one_minus_alphas_cumprod
+        'sqrt_one_minus_alphas_cumprod': sqrt_one_minus_alphas_cumprod,
+        'sqrt_recip_alphas': sqrt_recip_alphas,
+        'posterior_variance': posterior_variance
     }
 
 

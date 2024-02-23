@@ -1,12 +1,14 @@
 from tqdm import tqdm
 import torch.nn.functional as F
 from Forward_Process.noising import forward_diffusion_sample
-import torch.nn as nn
 import torch
-
+from Backward_Process.denoising import sample_plot_image, sample_timestep
+import os
 def train(model, dataloader, optimizer, device, epochs, T, diffusion_params):
     model.train()
+    output_num = 0
     for epoch in range(epochs):
+        model.train()
         total_loss = 0
         # Wrap dataloader with tqdm for a progress bar
         progress_bar = tqdm(enumerate(dataloader), total=len(dataloader), desc=f'Epoch {epoch + 1}/{epochs}')
@@ -36,4 +38,7 @@ def train(model, dataloader, optimizer, device, epochs, T, diffusion_params):
 
         avg_loss = total_loss / len(dataloader)
         print(f'Epoch {epoch + 1}/{epochs}, Avg Loss: {avg_loss:.4f}')
+        sample_plot_image(model, device, diffusion_params, output_num)
+        output_num = + 1
+
 
